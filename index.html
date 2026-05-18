@@ -4,8 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <div id="main">
+        <label for="name">Название фильма:</label>
+        <input 
+            type="text"
+            id="name"
+            name="fName"
+            placeholder="Введите название фильма"
+        ></input>
+        <label for="date">Год выпуска фильма:</label>
+        <input
+            type="date"
+            id="date"
+            name="fDate"
+        ></input>
+        <label for="genre">Жанры фильма через запятую:</label>
+        <input
+            type="text"
+            id="genre"
+            name="fGenre"
+            placeholder="Введите жанр фильма"
+        ></input>
+        <label for="rating">Рейтинг фильма:</label>
+        <span id="rating-value"></span>
+        <input
+            type="range"
+            id="rating"
+            name="fRating"
+            min="1.0"
+            max="10.0"
+            step="0.1"
+        ></input>
+        <label for="viewed">Просмотрен:</label>
+        <input 
+        type="checkbox"
+        id="viewed"
+        name="fViewed"
+        >
+        <label for="comment">Комментарии:</label>
+        <textarea
+        type="text"
+        id="comment"
+        name="fComment"
+        placeholder="Напишите здесь что-нибудь..."
+        ></textarea>
+        <button type="button" id="saveButton" onclick="saveData()">Сохранить</button>
+        <button type="button" id="deleteButton">Удалить</button>
+    </div>
+    <div id="filmListContainer">
+        <label for="filmList">Список фильмов:</label>
+        <ul id="filmList"></ul>
+    </div>
     <script src="index.js" defer></script> 
 </body>
 </html>
