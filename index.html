@@ -29,7 +29,7 @@
             placeholder="Введите жанр фильма"
         ></input>
         <label for="rating">Рейтинг фильма:</label>
-        <span id="rating-value"></span>
+        <span id="rating-value">0.0</span>
         <input
             type="range"
             id="rating"
@@ -53,6 +53,7 @@
         ></textarea>
         <button type="button" id="saveButton" onclick="saveData()">Сохранить</button>
         <button type="button" id="deleteButton">Удалить</button>
+        <button type="button" id="clearButton" onclick="clearData()">Очистить</button>
     </div>
     <div id="filmListContainer">
         <label for="filmList">Список фильмов:</label>

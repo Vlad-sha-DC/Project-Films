@@ -1,8 +1,17 @@
+body{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 800px;
+    margin: 0 auto;
+    height: 100vh;
+}
+
 #main {
     display: flex;
     flex-direction: column;
     margin: 0;
-    max-width: 500px;
+    min-width: 300px;
     gap: 10px;
 }
 #rating-value {
@@ -12,4 +21,9 @@
 #comment {
     height: 100px;
     resize: none;
+}
+
+#filmListContainer {
+    display: flex;
+    gap: 10px;
 }
