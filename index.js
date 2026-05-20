@@ -1,17 +1,17 @@
-let data = {};
-let listData = localStorage.getItem('storageList') ? JSON.parse(localStorage.getItem('storageList')) : [];
+let data = {};  // инициализируем объект данных
+let listData = localStorage.getItem('storageList') ? JSON.parse(localStorage.getItem('storageList')) : [];   // достаем данные из хранилища, либо присваем пустой массив если их нет
 
 let ratingInput = document.getElementById('rating');
 let ratingValue = document.getElementById('rating-value');
 
 
-function updateRating (value) {
+function updateRating (value) {   // вытаскиваем значение из ползунка в отдельный контейнер над ним, а так же привязываем его
     ratingValue.textContent = parseFloat(value).toFixed(1);
 }
 ratingInput.addEventListener('input', e => updateRating(e.target.value));
 
-function formData () {
-    let title = document
+function formData () {                    //Достаем данные из полей и складываем в объект, заодно проверяем формат новых данных
+    let title = document                   // название фильма
                 .getElementById('name')
                 .value
                 .trim();
@@ -19,20 +19,16 @@ function formData () {
         alert('Напишите название фильма!')
         return;
     }
-    // if (typeof title !== 'string') {
-    //     alert ('Название фильма должно быть строкой!')
-    // }
-    let year = parseInt(document
+
+    let year = document                     // год создания
                     .getElementById('date')
-                    .value);
+                    .valueAsNumber;
     if (!year) {
         alert('Укажите год выпуска фильма!')
         return;
     }
-    // if (typeof year !== 'number' || Number.isNaN(year)) {
-    //     alert('Год должен быть числом!')
-    // }
-    let genres = document
+
+    let genres = document                     // здесь берем жанры и превращаем в массив
                 .getElementById('genre')
                 .value
                 .split(/,\s*/);
@@ -40,23 +36,19 @@ function formData () {
         alert('Напишите жанры фильма!')
         return;
     }
-    // if (!Array.isArray(genres) && genres.every(e => typeof e === 'string')) {
-    //     alert('Жанры должны быть массивом строк!')
-    // }
-    let rating = document
+
+    let rating = document                      // считываем данные ползунка рейтинга
                 .getElementById("rating")
                 .valueAsNumber;
     if (!rating) {
         alert('Укажите рейтинг фильма!')
         return;
     }
-    // if (typeof rating !== 'number' || Number.isNaN(rating)) {
-    //     alert('Кажется все сломалось')
-    // }
-    let watched = Boolean(document
+
+    let watched = Boolean(document                 // галочка просмотра
                         .getElementById("viewed")
                         .checked);
-    let comment = document
+    let comment = document                         // тащим текст комментария
                 .getElementById("comment")
                 .value
                 .trim();
@@ -64,9 +56,10 @@ function formData () {
         alert('Напишите комментарий!')
         return;
     }
-    let id = Math.floor(Math.random() * 10000);
-    let createdAt = new Date().toLocaleDateString('ru-RU');
-    data = {
+    let id = data.id ?? Math.floor(Math.random() * 10000); //Проверяем есть ли уже id у элемента, если нет - присваиваем новый
+    let createdAt = data.createdAt ?? new Date().toLocaleDateString('ru-RU');     // присваеваем или перезаписываем дату создания
+
+    data = {           //формируем объект из всех данных
         id,
         title,
         year,
@@ -76,42 +69,68 @@ function formData () {
         comment,
         createdAt
     };
-    listData.push(data);
+
+    let check = listData.findIndex(e => e.id === data.id);  //Проверка на наличие такого же элемента в массиве по id, чтобы не добавить дубль, а перезаписать старый
+
+    if (check !== -1) {
+        listData[check] = data;  // перезапись существующего элемента по найденному индексу
+    } else {
+        listData.push(data);  // добавляем новый элемент
+    }
+
     return true;
 }
 
-function clearData () {
+function clearData () {             //функция очистки полей и данных
     document.getElementById('name').value = '';
     document.getElementById('date').value = '';
     document.getElementById('genre').value = '';
-    document.getElementById('rating').value = '';
+    document.getElementById('rating').value = '0';
     updateRating(0);
     document.getElementById('viewed').checked = false;
     document.getElementById('comment').value = '';
     data = {};
 }
 
-function saveData () {
+function saveData () { // функция кнопки сохранить, проверяем данные => сохраняем => обновляем список => очищаем поля
     if(formData()) {
         syncData();
         clearData();
     }
 }
 
-function syncData () {
+function syncData () { // повторяющаяся функция обновления данных - сохраняем и обновляем список
     localStorage.setItem('storageList', JSON.stringify(listData));
     setList(listData);
 }
 
-let deleteElement = function (id) {
+function deleteElement (id) { // функция кнопок удалить и для массива и для формы/ удаляем элемент по id
     listData = listData.filter(element => element.id !== id);
+    if (data.id === id) {
+        clearData();
+    }
     syncData ();
 }
 
-function setList (listData) {
+function selectElement (id) {    // функция выбора элемента из массива - достали данные и заполнили поля + прокинули id  в удаление
+    let selectedFilm = listData.find( element => element.id === id);
+    console.log(selectedFilm);
+
+    document.getElementById('name').value = selectedFilm.title;
+    document.getElementById('date').valueAsNumber = selectedFilm.year;
+    document.getElementById('genre').value = selectedFilm.genres;
+    updateRating(selectedFilm.rating);
+    document.getElementById('rating').value = selectedFilm.rating;
+    document.getElementById('viewed').checked = selectedFilm.watched;
+    document.getElementById('comment').value = selectedFilm.comment;
+    data.id = selectedFilm.id;
+    document.getElementById('deleteButton').setAttribute('onclick',`deleteElement(${id})`);
+}
+
+function setList (listData) {                             // функция отрисовки списка - берем массив данных и создаем элемент списка для каждого
     const listContainer = document.getElementById('filmList');
     listContainer.innerHTML = listData.map(element => {
-        return `<li id=${element.id}>${element.title}</li><button onclick="deleteElement(${element.id})">Удалить</button>`;
+        return `<li id=${element.id} onclick="selectElement(${element.id})">${element.title}</li><button onclick="deleteElement(${element.id})">Удалить</button>`;
     }).join('');
 }
 setList(listData);

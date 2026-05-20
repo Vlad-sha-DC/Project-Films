@@ -27,3 +27,7 @@ body{
     display: flex;
     gap: 10px;
 }
+
+#filmList > li {
+    cursor : pointer;
+}
