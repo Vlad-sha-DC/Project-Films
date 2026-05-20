@@ -1,5 +1,5 @@
 let data = {};
-let listData;
+let listData = localStorage.getItem('storageList') ? JSON.parse(localStorage.getItem('storageList')) : [];
 
 let ratingInput = document.getElementById('rating');
 let ratingValue = document.getElementById('rating-value');
@@ -13,36 +13,36 @@ ratingInput.addEventListener('input', e => updateRating(e.target.value));
 function formData () {
     let title = document
                 .getElementById('name')
-                .value;
+                .value
+                .trim();
     if (!title) {
         alert('Напишите название фильма!')
         return;
     }
-    if (typeof title !== 'string') {
-        alert ('Название фильма должно быть строкой!')
-    }
-    let year = Number(document
+    // if (typeof title !== 'string') {
+    //     alert ('Название фильма должно быть строкой!')
+    // }
+    let year = parseInt(document
                     .getElementById('date')
-                    .value
-                    .replaceAll('-',''));
+                    .value);
     if (!year) {
         alert('Укажите год выпуска фильма!')
         return;
     }
-    if (typeof year !== 'number' || Number.isNaN(year)) {
-        alert('Год должен быть числом!')
-    }
+    // if (typeof year !== 'number' || Number.isNaN(year)) {
+    //     alert('Год должен быть числом!')
+    // }
     let genres = document
                 .getElementById('genre')
                 .value
                 .split(/,\s*/);
-    if (!genres[0]) {
+    if (genres.length === 0) {
         alert('Напишите жанры фильма!')
         return;
     }
-    if (!Array.isArray(genres) && genres.every(e => typeof e === 'string')) {
-        alert('Жанры должны быть массивом строк!')
-    }
+    // if (!Array.isArray(genres) && genres.every(e => typeof e === 'string')) {
+    //     alert('Жанры должны быть массивом строк!')
+    // }
     let rating = document
                 .getElementById("rating")
                 .valueAsNumber;
@@ -50,15 +50,16 @@ function formData () {
         alert('Укажите рейтинг фильма!')
         return;
     }
-    if (typeof rating !== 'number' || Number.isNaN(rating)) {
-        alert('Кажется все сломалось')
-    }
+    // if (typeof rating !== 'number' || Number.isNaN(rating)) {
+    //     alert('Кажется все сломалось')
+    // }
     let watched = Boolean(document
                         .getElementById("viewed")
                         .checked);
     let comment = document
                 .getElementById("comment")
-                .value;
+                .value
+                .trim();
     if (!comment) {
         alert('Напишите комментарий!')
         return;
@@ -91,23 +92,20 @@ function clearData () {
 }
 
 function saveData () {
-    if(!formData()) {
-        return;
+    if(formData()) {
+        syncData();
+        clearData();
     }
-    localStorage.setItem('storageList', JSON.stringify(listData));
-    setList(listData);
-    clearData();
 }
 
-(function loadData () {
-    listData = localStorage.getItem('storageList') ? JSON.parse(localStorage.getItem('storageList')) : [];
+function syncData () {
+    localStorage.setItem('storageList', JSON.stringify(listData));
     setList(listData);
-})()
+}
 
 let deleteElement = function (id) {
     listData = listData.filter(element => element.id !== id);
-    localStorage.setItem('storageList', JSON.stringify(listData));
-    setList(listData);
+    syncData ();
 }
 
 function setList (listData) {
@@ -116,3 +114,4 @@ function setList (listData) {
         return `<li id=${element.id}>${element.title}</li><button onclick="deleteElement(${element.id})">Удалить</button>`;
     }).join('');
 }
+setList(listData);
