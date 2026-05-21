@@ -57,6 +57,13 @@
         <button type="button" id="clearButton" onclick="clearData()">Очистить</button>
     </div>
     <div id="filmListContainer">
+        <input type="text" id ="search" name="fSearch" placeholder="Поиск по названиям и комментариям"></input>
+        <select id="view-filter">
+            <option value="every">Все фильмы</option>
+            <option value="viewed">Просмотренные</option>
+            <option value="not-viewed">Непросмотренные</option>
+        </select>
+        <input type="text" id ="genreFilter" name="gFilter" placeholder="Напишите жанр фильма"></input>
         <label for="filmList">Список фильмов:</label>
         <ul id="filmList"></ul>
     </div>

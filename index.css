@@ -24,8 +24,13 @@ body{
 }
 
 #filmListContainer {
+    min-width: 300px;
     display: flex;
+    flex-direction: column;
     gap: 10px;
+}
+
+#filmList {
 }
 
 #filmList > li {
