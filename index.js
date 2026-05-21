@@ -137,7 +137,7 @@ function filterData () {                       // фильтр по просмо
     let viewDataValue = document.getElementById('view-filter').value;
     let genresSearchInput = document.getElementById('genreFilter').value.trim().toLowerCase();
     
-    let filteredData = listData.filter( e => {
+    let filteredData = listData.filter( e => {       // проверяем элемент массива данных, на флажок просмотра и соответствие даннвх из инпута и массива жанров, по умолчанию ставлю труе чтобы не блочить отображение
         let viewFilter = true;
 
         if (viewDataValue === 'every') {viewFilter = true;}    
@@ -155,11 +155,15 @@ function filterData () {                       // фильтр по просмо
 document.getElementById('view-filter').addEventListener('change', filterData);
 document.getElementById('genreFilter').addEventListener('input', filterData);
 
+function sortDataYearUp () {
+}
+function sortDataYearDown () {
+}
+
 function setList (data) {                             // функция отрисовки списка - берем массив данных и создаем элемент списка для каждого
     const listContainer = document.getElementById('filmList');
     listContainer.innerHTML = data.map(element => {
         return `<li id=${element.id} onclick="selectElement(${element.id})">${element.title}</li><button onclick="deleteElement(${element.id})">Удалить</button>`;
     }).join('');
-    console.log(data);
 }
 setList(listData);
