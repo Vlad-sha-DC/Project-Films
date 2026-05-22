@@ -34,7 +34,7 @@
             type="range"
             id="rating"
             name="fRating"
-            min="1.0"
+            min="0.0"
             max="10.0"
             step="0.1"
             value="0"
@@ -57,6 +57,8 @@
         <button type="button" id="clearButton" onclick="clearData()">Очистить</button>
     </div>
     <div id="filmListContainer">
+        <button type="button" id="exportButton" onclick="exportJSON()">Экспорт данных в JSON</button>
+        <input type="file" id="importButton" accept=".JSON">Импорт данных в JSON</input>
         <input type="text" id ="search" name="fSearch" placeholder="Поиск по названиям и комментариям"></input>
         <select id="view-filter">
             <option value="every">Все фильмы</option>

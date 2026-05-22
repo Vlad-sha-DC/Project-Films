@@ -30,8 +30,8 @@ body{
     gap: 10px;
 }
 
-#filmList {
-}
+/* #filmList {
+} */
 
 #filmList > li {
     cursor : pointer;

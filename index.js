@@ -97,10 +97,12 @@ function saveData () { // функция кнопки сохранить, про
     }
 }
 
-setInterval(function syncData () { // повторяющаяся функция обновления данных - сохраняем и обновляем список
+function syncData () { // повторяющаяся функция обновления данных - сохраняем и обновляем список
     localStorage.setItem('storageList', JSON.stringify(listData));
     handler();
-}, 300000);
+}
+
+setInterval(syncData, 300000); // автосохранение данных
 
 function deleteElement (id) { // функция кнопок удалить и для массива и для формы/ удаляем элемент по id
     listData = listData.filter(element => element.id !== id);
@@ -183,7 +185,6 @@ function handler () { //хэндлер который создает тэмп и
     temp = searchData(temp);
     temp = filterData(temp);
     temp = sortData(temp);
-    console.log(temp);
 
     setList(temp); //отрисовываем итоговый тэмп
 }
@@ -194,4 +195,40 @@ function setList (data) { // функция отрисовки списка - б
         return `<li id=${element.id} onclick="selectElement(${element.id})">${element.title}</li><button onclick="deleteElement(${element.id})">Удалить</button>`;
     }).join('');
 }
+
+function exportJSON () { //функция экспорта жсон
+    if (!listData) { //проверяем, а есть вообще что экспортировать
+        alert ('нет данных!');
+        return;
+    }
+    let dataToJSON = JSON.stringify(listData);  // жсоним наши данные
+    let blob = new Blob([dataToJSON], {type : 'application/json'}); //магия
+    let url = URL.createObjectURL(blob);
+    let link = document.createElement('a');  //магия + хитрость - создаем временную ссылку чтобы на нее кликнуть и скачать файл
+    link.href = url;
+    link.download = 'filmsJSON';
+    link.click(); // создаем ссылку - добавляем свойства и кликаем, и все это без инпута!
+    URL.revokeObjectURL(url); //магия 2
+}
+
+function importJSON (e) { //импорт жсон файла
+    const file = e.target.files[0];
+    if (!file) return;  //проверяем на наличие файла
+
+    const reader = new FileReader();  //создаем внутренний ридер
+    reader.onload = function(e) { //вызываем метод ридера при загрузке
+            let importedData = JSON.parse(e.target.result);  //парсим входящие данные
+            if (!Array.isArray(importedData)) { //проверяем данные на валидность
+                alert('Файл должен содержать массив фильмов!');
+                return;
+            }
+            listData = importedData; //кладем их в нашу лист дату
+            localStorage.setItem('storageList', JSON.stringify(listData));
+            handler(); //вызываем отрисовку
+            event.target.value = ''; //забываем прошлый файл - можем грузить еще
+    }
+    reader.readAsText(file); // запускаем
+}
+document.getElementById('importButton').addEventListener('change',importJSON);
+
 handler();
