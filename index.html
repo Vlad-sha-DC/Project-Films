@@ -14,20 +14,20 @@
             class="name"
             name="fName"
             placeholder="Введите название фильма"
-        ></input>
+        />
         <label for="date">Год выпуска фильма:</label>
         <input
             type="date"
             class="date"
             name="fDate"
-        ></input>
+        />
         <label for="genre">Жанры фильма через запятую:</label>
         <input
             type="text"
             class="genre"
             name="fGenre"
             placeholder="Введите жанр фильма"
-        ></input>
+        />
         <label for="rating">Рейтинг фильма:</label>
         <span class="rating-value">0.0</span>
         <input
@@ -38,13 +38,13 @@
             max="10.0"
             step="0.1"
             value="0"
-        ></input>
+        />
         <label for="viewed">Просмотрен:</label>
         <input 
         type="checkbox"
         class="viewed"
         name="fViewed"
-        >
+        />
         <label for="comment">Комментарии:</label>
         <textarea
         type="text"
@@ -59,13 +59,13 @@
     <div class="filmListContainer">
         <button type="button" class="exportButton" onclick="exportJSON()">Экспорт данных в JSON</button>
         <input type="file" class="importButton" accept=".JSON">Импорт данных в JSON</input>
-        <input type="text"  class="search" name="fSearch" placeholder="Поиск по названиям и комментариям"></input>
+        <input type="text"  class="search" name="fSearch" placeholder="Поиск по названиям и комментариям"/>
         <select class="view-filter">
             <option value="every">Все фильмы</option>
             <option value="viewed">Просмотренные</option>
             <option value="not-viewed">Непросмотренные</option>
         </select>
-        <input type="text" class="genreFilter" name="gFilter" placeholder="Напишите жанр фильма"></input>
+        <input type="text" class="genreFilter" name="gFilter" placeholder="Напишите жанр фильма"/>
         <select class="sort-filter">
             <option value="none">Сбросить сортировку</option>
             <option value="yearUp">Год ^</option>
