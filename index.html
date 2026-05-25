@@ -4,8 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
+    <div class="main">
+        <label for="name">Название фильма:</label>
+        <input 
+            type="text"
+            class="name"
+            name="fName"
+            placeholder="Введите название фильма"
+        />
+        <label for="date">Год выпуска фильма:</label>
+        <input
+            type="date"
+            class="date"
+            name="fDate"
+        />
+        <label for="genre">Жанры фильма через запятую:</label>
+        <input
+            type="text"
+            class="genre"
+            name="fGenre"
+            placeholder="Введите жанр фильма"
+        />
+        <label for="rating">Рейтинг фильма:</label>
+        <span class="rating-value">0.0</span>
+        <input
+            type="range"
+            class="rating"
+            name="fRating"
+            min="0.0"
+            max="10.0"
+            step="0.1"
+            value="0"
+        />
+        <label for="viewed">Просмотрен:</label>
+        <input 
+        type="checkbox"
+        class="viewed"
+        name="fViewed"
+        />
+        <label for="comment">Комментарии:</label>
+        <textarea
+        type="text"
+        class="comment"
+        name="fComment"
+        placeholder="Напишите здесь что-нибудь..."
+        ></textarea>
+        <button type="button" class="saveButton" onclick="saveData()">Сохранить</button>
+        <button type="button" class="deleteButton">Удалить</button>
+        <button type="button" class="clearButton" onclick="clearData()">Очистить</button>
+    </div>
+    <div class="filmListContainer">
+        <button type="button" class="exportButton" onclick="exportJSON()">Экспорт данных в JSON</button>
+        <input type="file" class="importButton" accept=".JSON">Импорт данных в JSON</input>
+        <input type="text"  class="search" name="fSearch" placeholder="Поиск по названиям и комментариям"/>
+        <select class="view-filter">
+            <option value="every">Все фильмы</option>
+            <option value="viewed">Просмотренные</option>
+            <option value="not-viewed">Непросмотренные</option>
+        </select>
+        <input type="text" class="genreFilter" name="gFilter" placeholder="Напишите жанр фильма"/>
+        <select class="sort-filter">
+            <option value="none">Сбросить сортировку</option>
+            <option value="yearUp">Год ^</option>
+            <option value="yearDown">Год v</option>
+            <option value="ratingUp">Рейтинг ^</option>
+            <option value="ratingDown">Рейтинг v</option>
+        </select>
+        <label for="filmList">Список фильмов:</label>
+        <ul class="filmList"></ul>
+    </div>
     <script src="index.js" defer></script> 
 </body>
 </html>
