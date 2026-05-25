@@ -7,32 +7,29 @@ body{
     height: 100vh;
 }
 
-#main {
+.main {
     display: flex;
     flex-direction: column;
     margin: 0;
     min-width: 300px;
     gap: 10px;
 }
-#rating-value {
+.rating-value {
     min-width: 30px;
     text-align: center;
 }
-#comment {
+.comment {
     height: 100px;
     resize: none;
 }
 
-#filmListContainer {
+.filmListContainer {
     min-width: 300px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-/* #filmList {
-} */
-
-#filmList > li {
+.filmList > li {
     cursor : pointer;
 }
